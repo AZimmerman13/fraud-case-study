@@ -16,6 +16,9 @@ from sklearn.ensemble import RandomForestClassifier
 def clean_training_dataframe(raw_fp):
     '''
     Take filepath, creating dataframe from 
+
+    Input: Filepath
+    Output: Pandas dataframe
     '''
     df = pd.read_json(raw_fp)
     df['fraud'] = df['acct_type'].str.contains('fraud')
@@ -26,6 +29,12 @@ def clean_training_dataframe(raw_fp):
     return df_cleaned
 
 def make_corpus(df_cleaned):
+    '''
+    Make corpus series out of description and organization name. 
+
+    Input: Pandas dataframe
+    Output: Pandas series
+    '''
     docs = []
     for doc in df_cleaned['description']:
         soup = BeautifulSoup(doc, 'lxml')
@@ -37,6 +46,12 @@ def make_corpus(df_cleaned):
     return corpus
 
 def prep_corpus(corpus):
+    '''
+    Prep corpus by lowering, removing punctuation, lemmatizing for tfidf vectorizer.
+
+    Input: Pandas series
+    Output: Pandas series
+    '''
     corpus_removepunc = []
     for c in corpus: 
         corpus_removepunc.append(c.translate(str.maketrans('', '', string.punctuation)).lower()) 
@@ -58,6 +73,9 @@ def lemmatize_str(string, wordnet=True):
         return lemmed
 
 def get_top_features_cluster(tf_idf_array, prediction, n_feats): 
+    '''
+    Get top words for each cluster.
+    '''
     labels = np.unique(prediction) 
     dfs = [] 
     for label in labels: 
