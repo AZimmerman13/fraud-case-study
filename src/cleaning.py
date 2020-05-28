@@ -88,9 +88,8 @@ def get_top_features_cluster(tf_idf_array, prediction, n_feats):
         dfs.append(df) 
     return dfs
 
-
 if __name__ == "__main__":
-    log_regression=True
+    log_regression=False
     randomforest = True
     df = clean_training_dataframe('data/data.json')
     print('Making corpus...')
@@ -106,8 +105,6 @@ if __name__ == "__main__":
     print('Starting kMeans...')
     kmeans = KMeans(n_clusters=5, random_state=0) 
     kmeans.fit(X.toarray())
-    # get_top_features_cluster(X.toarray(), kmeans.predict(X.toarray()), 15)
-    # print(vectorizer.get_feature_names())
     print('Making modelling dataframe...')
     df_modelling = df.drop(['description', 'name', 'parsed_desc'], axis=1)
     df_modelling['cluster'] = kmeans.labels_  
@@ -127,14 +124,15 @@ if __name__ == "__main__":
         print(f"Training: F1: {f1_score(y_train, preds)}, Recall: {recall_score(y_train, preds)}, Accuracy: {lr.score(X_train_scaled, y_train)}, Precision: {precision_score(y_train, preds)}")
         print(f"Test: F1: {f1_score(y_test, holdout_preds)}, Recall: {recall_score(y_test, holdout_preds)}, Accuracy: {lr.score(X_test_scaled, y_test)}, Precision: {precision_score(y_test, holdout_preds)}")
     if randomforest:
+        print("Starting Random Forest...")
         rf = RandomForestClassifier(class_weight='balanced', n_estimators=300, max_features=3, max_leaf_nodes=50, random_state=42, n_jobs=-2, oob_score=True)
         rf.fit(X_train_scaled, y_train)
         rfpreds = rf.predict(X_train_scaled)
         holdout_preds_rf = rf.predict(X_test_scaled)
-        print(f"Training: F1: {f1_score(y_train, rfpreds)}, Recall: {recall_score(y_train, rfpreds)}, Accuracy: {rf.score(X_train_scaled, y_train)}, Precision: {precision_score(y_train, rfpreds)}")
-        print(f"Test: F1: {f1_score(y_test, holdout_preds_rf)}, Recall: {recall_score(y_test, holdout_preds_rf)}, Accuracy: {lr.score(X_test_scaled, y_test)}, Precision: {precision_score(y_test, holdout_preds_rf)}")
+        print(f"Training: \nF1: {f1_score(y_train, rfpreds)}, \nRecall: {recall_score(y_train, rfpreds)}, \nAccuracy: {rf.score(X_train_scaled, y_train)}, \nPrecision: {precision_score(y_train, rfpreds)}")
+        print(f"Test: \nF1: {f1_score(y_test, holdout_preds_rf)}, \nRecall: {recall_score(y_test, holdout_preds_rf)}, \nAccuracy: {lr.score(X_test_scaled, y_test)}, \nPrecision: {precision_score(y_test, holdout_preds_rf)}")
 
-    model = rf.fit(X, y)
+    model = rf.fit(X, y) ## Final model created
 
     # with open("model.pkl", 'rb') as f_un:    
     #     rf1 = pickle.load(f_un)
