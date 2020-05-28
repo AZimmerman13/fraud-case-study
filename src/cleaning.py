@@ -134,8 +134,10 @@ if __name__ == "__main__":
 
     model = rf.fit(X, y) ## Final model created
 
-    # with open("model.pkl", 'rb') as f_un:    
-    #     rf1 = pickle.load(f_un)
+    pickle_model = False
+    if pickle_model:
+        with open("model.pkl", 'wb') as f:
+            pickle.dump(model, f)
 
 
 
