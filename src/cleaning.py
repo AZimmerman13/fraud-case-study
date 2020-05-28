@@ -1,6 +1,8 @@
 import pandas as pd 
 import numpy as np 
 from bs4 import BeautifulSoup
+from sklearn.feature_extraction.text import TfidfVectorizer
+from nltk.corpus import stopwords
 
 def clean_training_dataframe(raw_fp):
     df = pd.read_json(raw_fp)
@@ -21,3 +23,17 @@ def make_corpus(df_cleaned):
     df_cleaned['parsed_desc'] = docs
     corpus = df_cleaned['parsed_desc']+df_cleaned['name']
     return corpus
+
+def load_corpus():
+    corpus = ['eggs are tasty, i love to eat', 'watch me pull a rabbit out of my hat', 'is it time to eat dinner yet', 'lions and tigers and bears, oh my']
+    return corpus
+
+if __name__ == "__main__":
+    df = clean_training_dataframe('data/subset.json')
+    corpus = make_corpus(df)
+    stop_words = set(stopwords.words('english'))
+    extra = ['s']
+    all_stop = stop_words.union(extra)
+    # vectorizer = TfidfVectorizer(stop_words=all_stop, strip_accents='ascii', ngram_range=(1,2))
+    # X = vectorizer.fit_transform(corpus)
+    # print(vectorizer.get_feature_names())
