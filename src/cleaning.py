@@ -91,7 +91,7 @@ def get_top_features_cluster(tf_idf_array, prediction, n_feats):
 if __name__ == "__main__":
     log_regression=False
     randomforest = True
-    df = clean_training_dataframe('data/data.json')
+    df = clean_training_dataframe('data/data.json') ## Entire dataset being trained
     print('Making corpus...')
     corpus = make_corpus(df)
     stop_words = set(stopwords.words('english'))
