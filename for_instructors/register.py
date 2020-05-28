@@ -5,7 +5,6 @@ python register.py test_filename.json
 App will display the url students should send their post requests to.
 '''
 
-
 from flask import Flask, request
 import flask_restful as restful
 from apscheduler.schedulers.blocking import BlockingScheduler
