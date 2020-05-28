@@ -1,20 +1,31 @@
 # Fraud Case Study
 
+<p align="center">
+       <img src="images/header.jpg" width="800" height="300" />
+
 ## Problem Statement
 
 We have been tasked with identifying fraudulent events based on data provided to us by an online event planning company.  Since out product will be identifying potential fraud for further investigation, as opposed to automatically taking down 'fraud' events, we expect that the best approach will be to minimize false negatives.  The business is better suited by a product that is overly cautious in its initial screen, allowing the human agents to make final decision based on their experience or, perhaps less often, contact with the customer.
 
 ## Data
 
-The training data came in json format, with XXX,XXX rows and 44 features.  The features contained a lot of information, but not all of it appeared to be helpful in identifying fraud.
+The training data came in json format, with 14,337 rows and 44 features.  The features contained a lot of information, but not all of it appeared to be helpful in identifying fraud.  We removed data that had been collected over time since each event's publication (such as ticket sales), as our goal was to use only information immediately available.
 
+Some cursory EDA revealed that many of the features were simply not relevent to the occurance of fraud, i.e. they occurred at the same rate or with similar values across fraud and non-fraud events.
 
-imbalanced classes
+In the end, we stuck with 8 features that appeared to be important to predicting fruadulent events:
 
-stratified train_test_split
-more methods discussed below
+`['has_logo', 'listed', 'num_payouts', 'user_age', 'user_type', 'org_description', 'name', 'event_description']`
+ 
+We altered org_description so that it simply indicated the existance of an organization description, figuring that a lack of description might be more likely for fruadulent events.  The rest of the features were analyzes as is.
+
+It is important to note that the classes in this dataset were severely imbalanced, only about 9% of the rows were members of the positive class. Our first step towards mitigate the effects of this was stratifying the train_test_split.  Additional steps are discussed below in the model selection section.
+
 
 ## Pipeline
+
+<p align="center">
+       <img src="images/pipeline.png" width="600" height="400" />
 
 ### Training Data
 
@@ -75,7 +86,13 @@ We also wanted to give a non-linear model a shot, so we put together a Random Fo
 | Precision      | 0.34        | 0.34       |
 
 
+<p align="center">
+       <img src="images/feat_importances.png" width="700" height="400" />
+
 ## Flask Implementation
 
 ## Results
 
+
+
+Header image credit: https://paymentdepot.com/wp-content/uploads/2018/12/5-Types-of-Retail-Fraud-and-How-to-Prevent-Them1-1024x683.jpg
