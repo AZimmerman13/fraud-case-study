@@ -89,26 +89,28 @@ def get_top_features_cluster(tf_idf_array, prediction, n_feats):
     return dfs
 
 if __name__ == "__main__":
-    log_regression=False
+    log_regression=True
     randomforest = True
     df = clean_training_dataframe('data/data.json') ## Entire dataset being trained
-    print('Making corpus...')
-    corpus = make_corpus(df)
-    stop_words = set(stopwords.words('english'))
-    extra = ['s', 'de', 'la', 'en', 'et', 'le', 'des', 'de la', 'les', 'vous', 'pour', 'rouen', 'us', 'dec', '00', '2013', '30', '10', 'us', 'www', 'new']
-    all_stop = stop_words.union(extra)
-    print('Prep corpus for tfidf...')
-    prepped_corpus = prep_corpus(corpus)
+    # print('Making corpus...')
+    # corpus = make_corpus(df)
+    # stop_words = set(stopwords.words('english'))
+    # extra = ['s', 'de', 'la', 'en', 'et', 'le', 'des', 'de la', 'les', 'vous', 'pour', 'rouen', 'us', 'dec', '00', '2013', '30', '10', 'us', 'www', 'new']
+    # all_stop = stop_words.union(extra)
+    # print('Prep corpus for tfidf...')
+    # prepped_corpus = prep_corpus(corpus)
     
-    vectorizer = TfidfVectorizer(stop_words=all_stop, strip_accents='ascii', ngram_range=(1,2), max_features=5000)
-    X = vectorizer.fit_transform(prepped_corpus)
-    print('Starting kMeans...')
-    kmeans = KMeans(n_clusters=5, random_state=0) 
-    kmeans.fit(X.toarray())
+    # vectorizer = TfidfVectorizer(stop_words=all_stop, strip_accents='ascii', ngram_range=(1,2), max_features=5000)
+    # X = vectorizer.fit_transform(prepped_corpus)
+    # print('Starting kMeans...')
+    # kmeans = KMeans(n_clusters=5, random_state=0) 
+    # kmeans.fit(X.toarray())
     print('Making modelling dataframe...')
-    df_modelling = df.drop(['description', 'name', 'parsed_desc'], axis=1)
-    df_modelling['cluster'] = kmeans.labels_  
-    df_modelling = pd.get_dummies(df_modelling, columns=['cluster'], drop_first=True) 
+    # df_modelling = df.drop(['description', 'name', 'parsed_desc'], axis=1)
+    df_modelling = df.drop(['description', 'name'], axis=1)
+
+    # df_modelling['cluster'] = kmeans.labels_  
+    # df_modelling = pd.get_dummies(df_modelling, columns=['cluster'], drop_first=True) 
     y = df_modelling.pop('fraud') 
     X = df_modelling.values
     ss = StandardScaler()
