@@ -55,7 +55,10 @@ def get_listed(df, top_split, row_num,
         if col_str in feature:
             idx = feature.find(col_str)
             value = feature[start_padding + idx + col_str_len : len(feature)-end_padding]
-            df.loc[row_num, col_str] = value
+            if type(value)==type(True):
+                df.loc[row_num, col_str] = int(value)
+            else:
+                df.loc[row_num, col_str] = int(value=='y')
     return df
 
 def get_num_payouts(df, top_split, row_num,
@@ -130,4 +133,5 @@ def get_data():
         get_name(df, bot_split, row_num)
         get_user_age(df, bot_split, row_num)
         get_user_type(df, bot_split, row_num)
+    df['org_description'] = 1
     return df
