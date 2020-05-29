@@ -87,7 +87,7 @@ We also wanted to give a non-linear model a shot, so we put together a Random Fo
 
 
 <p align="center">
-       <img src="images/feat_importances.png" width="700" height="400" />
+       <img src="images/feat_importances.png" width="600" height="400" />
 
 ## Flask Implementation
 
