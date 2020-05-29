@@ -1,5 +1,4 @@
 from flask import Flask, request, render_template
-#import cPickle as pickle
 import pickle
 import json
 import requests
@@ -22,7 +21,7 @@ def index():
 @app.route('/score', methods=['POST'])
 def score():
     df = get_data()
-    df_use = df[['has_logo','listed','num_payouts','user_age','user_type','org_description']]
+    df_use = df[['has_logo','listed','num_payouts','user_age','user_type','description']]
     print("Predicting")
     X = df_use.values
     df['fraud'] = model_upkl.predict(X)
