@@ -163,6 +163,10 @@ For future improvements to the model, we would like to implement another class w
 We created a simple [flask app](http://3.16.163.155:8808/), hosted on an Amazon EC2 instance, where new data coming off of the Heroku server (as well as our model's predictions) can be [viewed](http://3.16.163.155:8808/) in real time.  The app takes this data and uploads it to a PostgreSQL server, also hosted on AWS, which can be queried by the company's fraud invesigators.
 
 
+# #Analysis
+<p align="center">
+       <img src="images/pie.png" width="600" height="400" />
+
 ## Citations
 
 Header image credit: https://paymentdepot.com/wp-content/uploads/2018/12/5-Types-of-Retail-Fraud-and-How-to-Prevent-Them1-1024x683.jpg
