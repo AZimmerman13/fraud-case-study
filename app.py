@@ -6,6 +6,7 @@ import requests
 import socket
 import time
 from datetime import datetime
+from src.data_clean import get_data
 
 app = Flask(__name__)
 PORT = 5353
@@ -22,12 +23,6 @@ def index():
     """ Render a simple splash page"""
     return render_template('index.html')
 
-@app.route('/submit', methods=['GET'])
-def submit():
-    """ Render a page containing a text input where the user can paste an article to be
-    classified. """
-    return render_template('submit.html')
-
 # @app.route('/predict', methods=['POST'])
 # def predict():
 #     """ Receive the article to be classified from the input and use the model to predict
@@ -41,9 +36,12 @@ def submit():
 
 @app.route('/score', methods=['POST'])
 def score():
-    DATA.append(json.dumps(request.json, sort_keys=True, indent=4, separators=(',', ': ')))
-    TIMESTAMP.append(time.time())
-    return ""
+    print("this is a ttest!")
+    df = get_data()
+    return df.to_string()
+    # DATA.append(json.dumps(request.json, sort_keys=True, indent=4, separators=(',', ': ')))
+    # TIMESTAMP.append(time.time())
+    #return render_template("score.html")
 
 @app.route('/check')
 def check():
