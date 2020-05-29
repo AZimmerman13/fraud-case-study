@@ -18,7 +18,7 @@ By Annie Rumbles, Allison Zhou, Marc Russell, and Austin Zimmerman
 
 
 <p align="center">
-       <img src="images/header.jpg" width="800" height="300" />
+       <img src="images/header.jpg" width="800" />
 
 ## Problem Statement
 
@@ -32,26 +32,26 @@ The training data came in json format, with 14,337 rows and 44 features.  The fe
 ### EDA
 #### Class Imbalance
 <p align="center">
-       <img src="images/fraud_events.png" width="600" height="400" />
+       <img src="images/fraud_events.png" width="600" />
        
 9% of the data was flagged as fraudulent, this imbalance can be seen above. 
 
 -----------
 
 <p align="center">
-       <img src="images/user_types.png" width="600" height="300" />
+       <img src="images/user_types.png" width="600"/>
        
 There seemed to be an emphasis on user type 1 for events flagged as fraudulent.
 
 -----
 
 <p align="center">
-       <img src="images/num_payouts.png" width="600" height="250" />
+       <img src="images/num_payouts.png" width="600" />
        
 ----
 
 <p align="center">
-       <img src="images/user_age.png" width="600" height="250" />
+       <img src="images/user_age.png" width="600" />
 
 The plots above show a similar pattern but for two different features, the fraud class has a much smaller, almost non-existent, tail in both.
 
@@ -93,12 +93,12 @@ Once the pickled model was incorporated into the flask app, we ran the test data
 <tr><th>First Iteration</th><th>Final Iteration</th></tr>
 <tr><td>
 <p align="left">
-       <img src="images/pipeline.png" width="400" height="300" />
+       <img src="images/pipeline.png" width="400" />
 
 </td><td>
 
 <p align="right">
-       <img src="images/seriously_last_pipeline.png" width="400" height="300" />
+       <img src="images/seriously_last_pipeline.png" width="400"  />
 
 </td></tr> </table>
 
@@ -175,7 +175,7 @@ We also wanted to give a non-linear model a shot, so we put together a Random Fo
 
 Trying to get a sense of what factors weigh heavily on fraud:
 <p align="center">
-       <img src="images/feat_importances.png" width="600" height="400" />
+       <img src="images/feat_importances.png" width="600" />
 
 ## Results
 
@@ -185,7 +185,7 @@ After doing the NLP and KMeans clustering on the term frequency-inverse document
 `['has_logo', 'listed', 'num_payouts', 'user_age', 'user_type', 'org_description']`
 
 <p align="center">
-       <img src="images/feat_importances_noclusters.png" width="600" height="400" />
+       <img src="images/feat_importances_noclusters.png" width="600"  />
 
 
 ## Flask Implementation
