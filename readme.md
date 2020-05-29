@@ -1,5 +1,7 @@
 # Fraud Case Study
 
+By Annie Rumbles, Allison Zhou, Marc Russell, and Austin Zimmerman
+
 - [Problem Statement](##Problem-Statement)
 - [Data](##Data)
     - [Training Data](##Training-Data)
@@ -83,6 +85,7 @@ Literature on the subject indicated that a standard Logistic Regression might pe
 
 
 Given the large class imbalance, this high-accuracy, poor-recall model is not all that much of a shock.
+We made one small change to this model that made a hug difference, setting the class_weights parameter to 'balanced'.
 
 
 <table>
@@ -157,7 +160,8 @@ For future improvements to the model, we would like to implement another class w
 
 ## Flask Implementation
 
-We created a simple flask app, hosted on an Amazon EC2 instance, where new data coming off of the Heroku server (as well as our model's predictions) can be viewed in real time.  The app takes this data and uploads it to a PostgreSQL server, also hosted on AWS, which can be queried by the company's fraud invesigators.
+We created a simple [flask app](http://3.16.163.155:8808/), hosted on an Amazon EC2 instance, where new data coming off of the Heroku server (as well as our model's predictions) can be [viewed](http://3.16.163.155:8808/) in real time.  The app takes this data and uploads it to a PostgreSQL server, also hosted on AWS, which can be queried by the company's fraud invesigators.
+
 
 ## Citations
 
