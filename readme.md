@@ -1,5 +1,18 @@
 # Fraud Case Study
 
+- [Problem Statement](##Problem-Statement)
+- [Data](##Data)
+    - [Training Data](##Training-Data)
+    - [Test Data](##Test-Data)
+- [Pipeline](##Pipeline)
+- [Model Selection and Improvement](#Model-Selection-and-Improvement)
+    - [Logistic Regression](##Logistic-Regression)
+    - [Random Forest](##Random-Forest)
+- [Flask Implementation](##Flask-Implementation)
+- [Results](##Results)
+
+
+
 <p align="center">
        <img src="images/header.jpg" width="800" height="300" />
 
@@ -21,17 +34,40 @@ We altered org_description so that it simply indicated the existance of an organ
 
 It is important to note that the classes in this dataset were severely imbalanced, only about 9% of the rows were members of the positive class. Our first step towards mitigate the effects of this was stratifying the train_test_split.  Additional steps are discussed below in the model selection section.
 
-
-### Test Data
-The test data is hosted in the 
-## Pipeline
+<p align="center">
+       <img src="images/fraud_events.png" width="600" height="400" />
 
 <p align="center">
-       <img src="images/pipeline.png" width="600" height="400" />
+       <img src="images/user_types.png" width="600" height="300" />
+
+<p align="center">
+       <img src="images/num_payouts.png" width="600" height="250" />
+
+<p align="center">
+       <img src="images/user_age.png" width="600" height="250" />
 
 
+### Test Data
+The test data is hosted on a heroku server that randomly selects an unlabeled data point at an interval between 10 and 60 seconds.
 
+## Pipeline
 
+We utilized a fairly straightforward data pipeline with Beautiful Soup and Pandas to clean the data and process the data.  At first, we hope to apply NLP and K-Means clustering to the event name and description fields, but for reasons that become clear in later sections, these processes did not make it into our final model.
+
+Once the pickled model was incorporated into the flask app, we ran the test data through a very similar cleaning process contained within the app and then predicted if it was fruad or not.
+
+<table>
+<tr><th>First Iteration</th><th>Final Iteration</th></tr>
+<tr><td>
+<p align="left">
+       <img src="images/pipeline.png" width="400" height="300" />
+
+</td><td>
+
+<p align="right">
+       <img src="images/seriously_last_pipeline.png" width="400" height="300" />
+
+</td></tr> </table>
 
 # Model Selection and Improvement
 
@@ -106,21 +142,23 @@ We also wanted to give a non-linear model a shot, so we put together a Random Fo
 <p align="center">
        <img src="images/feat_importances.png" width="600" height="400" />
 
-After discussing our models' performance and the future pipeline, we decided to stick with the Random Forest model that did not use our KMeans clusters as they didn't contribute much to our predictions. 
-
-
-
-## Flask Implementation
-
 ## Results
 
+After doing the NLP and KMeans clustering on the term frequency-inverse document frequency vector and comparing the model with clusters and without theose clusters, we found that the clusters didn't contribute significantly to the model so we opted for a model that predicted using the following features: 
+
+`['has_logo', 'listed', 'num_payouts', 'user_age', 'user_type', 'org_description']`
 
 <p align="center">
        <img src="images/feat_importances_noclusters.png" width="600" height="400" />
 
-to improve this model: oversample, undersample, SMOTE
+## Future Modelling Work
 
+For future improvements to the model, we would like to implement another class weighting technique by either oversampling, undersampling, or SMOTE. We'd also like to compare the performance of a gradient boosted classifier to our random forest.
 
+## Flask Implementation
 
+We created a simple flask app, hosted on an Amazon EC2 instance, where new data coming off of the Heroku server (as well as our model's predictions) can be viewed in real time.  The app takes this data and uploads it to a PostgreSQL server, also hosted on AWS, which can be queried by the company's fraud invesigators.
+
+## Citations
 
 Header image credit: https://paymentdepot.com/wp-content/uploads/2018/12/5-Types-of-Retail-Fraud-and-How-to-Prevent-Them1-1024x683.jpg
