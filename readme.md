@@ -18,7 +18,7 @@ By Annie Rumbles, Allison Zhou, Marc Russell, and Austin Zimmerman
 
 
 <p align="center">
-       <img src="images/header.jpg" width="800" />
+       <img src="images/header.jpg" width="800" height='350'/>
 
 ## Problem Statement
 
@@ -39,19 +39,19 @@ The training data came in json format, with 14,337 rows and 44 features.  The fe
 -----------
 
 <p align="center">
-       <img src="images/user_types.png" width="600"/>
+       <img src="images/user_types.png" width="700"/>
        
 There seemed to be an emphasis on user type 1 for events flagged as fraudulent.
 
 -----
 
 <p align="center">
-       <img src="images/num_payouts.png" width="600" />
+       <img src="images/num_payouts.png" width="700" />
        
 ----
 
 <p align="center">
-       <img src="images/user_age.png" width="600" />
+       <img src="images/user_age.png" width="700" />
 
 The plots above show a similar pattern but for two different features, the fraud class has a much smaller, almost non-existent, tail in both.
 
@@ -196,11 +196,11 @@ We created a simple [flask app](http://3.16.163.155:8808/), hosted on an Amazon 
 
 For future improvements to the model, we would like to implement another class weighting technique by either oversampling, undersampling, or SMOTE. We'd also like to compare the performance of a gradient boosted classifier to our random forest.
 
-Integration with the postgreSQL server in order to maintain a database of flagged events.
+Integration with the PostgreSQL server in order to maintain a database of flagged events.
 
 # #Analysis
 <p align="center">
-       <img src="images/pie.png" width="600"/>
+    <img src="images/pie.png" width="600"/>
 
 ## Citations
 
