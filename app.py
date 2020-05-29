@@ -21,6 +21,7 @@ def index():
 @app.route('/score', methods=['POST'])
 def score():
     df = get_data()
+    df.drop_duplicates(inplace=True)
     df_use = df[['has_logo','listed','num_payouts','user_age','user_type','description']]
     print("Predicting")
     X = df_use.values
