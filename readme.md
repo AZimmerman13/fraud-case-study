@@ -22,7 +22,7 @@ By Annie Rumbles, Allison Zhou, Marc Russell, and Austin Zimmerman
 
 ## Problem Statement
 
-We have been tasked with identifying fraudulent events based on data provided to us by an online event planning company.  Since out product will be identifying potential fraud for further investigation, as opposed to automatically taking down 'fraud' events, we expect that the best approach will be to minimize false negatives.  The business is better suited by a product that is overly cautious in its initial screen, allowing the human agents to make final decision based on their experience or, perhaps less often, contact with the customer.
+We have been tasked with identifying fraudulent events based on data provided to us by an online event planning company.  Since our product will be identifying potential fraud for further investigation, as opposed to automatically taking down 'fraud' events, we expect that the best approach will be to minimize false negatives.  The business is better suited by a product that is overly cautious in its initial screen, allowing the human agents to make final decision based on their experience or, perhaps less often, contact with the customer.
 
 ## Data
 ### Training Data
@@ -30,18 +30,30 @@ We have been tasked with identifying fraudulent events based on data provided to
 The training data came in json format, with 14,337 rows and 44 features.  The features contained a lot of information, but not all of it appeared to be helpful in identifying fraud.  We removed data that had been collected over time since each event's publication (such as ticket sales), as our goal was to use only information immediately available.
 
 ### EDA
-
+#### Class Imbalance
 <p align="center">
        <img src="images/fraud_events.png" width="600" height="400" />
+       
+9% of the data was flagged as fraudulent, this imbalance can be seen above. 
+
+-----------
 
 <p align="center">
        <img src="images/user_types.png" width="600" height="300" />
+       
+There seemed to be an emphasis on user type 1 for events flagged as fraudulent.
+
+-----
 
 <p align="center">
        <img src="images/num_payouts.png" width="600" height="250" />
+       
+----
 
 <p align="center">
        <img src="images/user_age.png" width="600" height="250" />
+
+The plots above show a similar pattern but for two different features, the fraud class has a much smaller, almost non-existent, tail in both.
 
 Some cursory EDA revealed that many of the features were simply not relevent to the occurance of fraud, i.e. they occurred at the same rate or with similar values across fraud and non-fraud events.
 
@@ -49,9 +61,9 @@ In the end, we stuck with 8 features that appeared to be important to predicting
 
 `['has_logo', 'listed', 'num_payouts', 'user_age', 'user_type', 'org_description', 'name', 'event_description']`
  
-We altered org_description so that it simply indicated the existance of an organization description, figuring that a lack of description might be more likely for fruadulent events.  The rest of the features were analyzes as is.
+We altered org_description so that it simply indicated the existence of an organization description, figuring that a lack of description might be more likely for fraudulent events.  The rest of the features were analyzed as is.
 
-It is important to note that the classes in this dataset were severely imbalanced, only about 9% of the rows were members of the positive class. Our first step towards mitigate the effects of this was stratifying the train_test_split.  Additional steps are discussed below in the model selection section.
+It is important to note that the classes in this dataset were severely imbalanced, only about 9% of the rows were members of the positive class. Our first step towards mitigating the effects of this was stratifying the train_test_split.  Additional steps are discussed below in the model selection section.
 
 
 
@@ -61,19 +73,21 @@ The test data is hosted on a heroku server that randomly selects an unlabeled da
 
 ## Pipeline
 
-New EventBrite events were access using a straight forward private API provided by Galvanize. To gather and bring data from the API into python we used the **Requests** library. 
+New events were accessed using a straight-forward private API provided by Galvanize. To gather and bring data from the API into python we used the **Requests** library. Using the GET method allowed us to *refresh* the webpage to send the latest entry into the pipeline.
 
-Our previous EDA on historical data allowed us to selectively pull relelvant data from the new entries - reducing the amount of work. To achieve this we used the **BeautifulSoup** library.
+Our previous EDA on historical data allowed us to selectively pull relevant data from the new entries - reducing the amount of work. To achieve this we used the **BeautifulSoup** library. This provided us with a way to easily navigate, search, and modify our JSON text string.
 
 <p align="center">
-<img src="images/api.png" width="700"/>
+<img src="images/api.png" width="900"/>
 </p>
 
-By cleverly splitting the JSON text on certain html tags we were able to consistently We managed incoming data using a **Pandas** dataframe for easy manipulation. After cleaning and organizing the event features we wanted to store our data on a **PostgreSQL** database using the **psychopg2** python adapter.
+By cleverly splitting the JSON text on certain html tags we were able to consistently seperate relevant data entries. We managed the incoming data using a **Pandas** dataframe for easy manipulation. 
+
+After cleaning and organizing the event-features, we wanted to store our data on a **PostgreSQL** database using the **psycopg2** python adapter. This would've allowed our fraud team to remotely access a large-scale, fraud-flagged events.
 
 At first, we hoped to apply NLP and K-Means clustering to the event name and description fields, but for reasons that become clear in later sections, these processes did not make it into our final model.
 
-Once the pickled model was incorporated into the flask app, we ran the test data through a very similar cleaning process contained within the app and then predicted if it was fruad or not.
+Once the pickled model was incorporated into the flask app, we ran the test data through a very similar cleaning process contained within the app and then predicted if it was fraud or not.
 
 <table>
 <tr><th>First Iteration</th><th>Final Iteration</th></tr>
@@ -90,7 +104,7 @@ Once the pickled model was incorporated into the flask app, we ran the test data
 
 # Model Selection and Improvement
 
-Literature on the subject indicated that a standard Logistic Regression might perform well in this scenario.  We ran this model with standard hyperparameters and got the following results:
+Literature on the subject indicated that a standard Logistic Regression might perform well in this scenario.  We ran this model with standard hyperparameters and got the following results as a baseline:
 ## Logistic Regression
 #### 500 Sample Subset - with NLP & KMeans Clusters
 
@@ -159,14 +173,14 @@ We also wanted to give a non-linear model a shot, so we put together a Random Fo
 
 </td></tr> </table>
 
-When we look at the feature importances
-
+Trying to get a sense of what factors weigh heavily on fraud:
 <p align="center">
        <img src="images/feat_importances.png" width="600" height="400" />
 
 ## Results
 
-After doing the NLP and KMeans clustering on the term frequency-inverse document frequency vector and comparing the model with clusters and without theose clusters, we found that the clusters didn't contribute significantly to the model so we opted for a model that predicted using the following features: 
+
+After doing the NLP and KMeans clustering on the term frequency-inverse document frequency vector and comparing the model with clusters and without those clusters, we found that the clusters didn't contribute significantly to the model so we opted for a model that predicted using the following features: 
 
 `['has_logo', 'listed', 'num_payouts', 'user_age', 'user_type', 'org_description']`
 
@@ -182,11 +196,11 @@ We created a simple [flask app](http://3.16.163.155:8808/), hosted on an Amazon 
 
 For future improvements to the model, we would like to implement another class weighting technique by either oversampling, undersampling, or SMOTE. We'd also like to compare the performance of a gradient boosted classifier to our random forest.
 
-Integration with the 
+Integration with the postgreSQL server in order to maintain a database of flagged events.
 
 # #Analysis
 <p align="center">
-       <img src="images/pie.png" width="600" height="400" />
+       <img src="images/pie.png" width="600"/>
 
 ## Citations
 
