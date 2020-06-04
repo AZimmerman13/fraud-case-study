@@ -133,11 +133,9 @@ if __name__ == "__main__":
             rf.fit(X_train_scaled, y_train)
 
             rfpreds = rf.predict_proba(X_train_scaled)
-            rfpreds[:,0] = (rfpreds[:,0] < i).astype('int')
             rfpreds[:,1] = (rfpreds[:,1] >= i).astype('int')
 
             holdout_preds_rf = rf.predict_proba(X_test_scaled)
-            holdout_preds_rf[:,0] = (holdout_preds_rf[:,0] < i).astype('int')
             holdout_preds_rf[:,1] = (holdout_preds_rf[:,1] >= i).astype('int')
 
             print(f"With a threshold of {i}:\n")
