@@ -89,7 +89,7 @@ def get_top_features_cluster(tf_idf_array, prediction, n_feats):
     return dfs
 
 if __name__ == "__main__":
-    log_regression=True
+    log_regression=False
     randomforest = True
     df = clean_training_dataframe('data/data.json') ## Entire dataset being trained
     # print('Making corpus...')
@@ -127,16 +127,26 @@ if __name__ == "__main__":
         print(f"Test: F1: {f1_score(y_test, holdout_preds)}, Recall: {recall_score(y_test, holdout_preds)}, Accuracy: {lr.score(X_test_scaled, y_test)}, Precision: {precision_score(y_test, holdout_preds)}")
     if randomforest:
         print("Starting Random Forest...")
-        rf = RandomForestClassifier(class_weight='balanced', n_estimators=300, max_features=3, max_leaf_nodes=50, random_state=42, n_jobs=-2, oob_score=True)
-        rf.fit(X_train_scaled, y_train)
-        rfpreds = rf.predict(X_train_scaled)
-        holdout_preds_rf = rf.predict(X_test_scaled)
-        print(f"Training: \nF1: {f1_score(y_train, rfpreds)}, \nRecall: {recall_score(y_train, rfpreds)}, \nAccuracy: {rf.score(X_train_scaled, y_train)}, \nPrecision: {precision_score(y_train, rfpreds)}")
-        print(f"Test: \nF1: {f1_score(y_test, holdout_preds_rf)}, \nRecall: {recall_score(y_test, holdout_preds_rf)}, \nAccuracy: {lr.score(X_test_scaled, y_test)}, \nPrecision: {precision_score(y_test, holdout_preds_rf)}")
+        thresh_list = list(np.arange(0,1,0.05))
+        for i in thresh_list:
+            rf = RandomForestClassifier(class_weight='balanced', n_estimators=300, max_features=3, max_leaf_nodes=50, random_state=42, n_jobs=-2, oob_score=True)
+            rf.fit(X_train_scaled, y_train)
+
+            rfpreds = rf.predict_proba(X_train_scaled)
+            rfpreds[:,0] = (rfpreds[:,0] < threshold).astype('int')
+            rfpreds[:,1] = (rfpreds[:,1] >= threshold).astype('int')
+
+            holdout_preds_rf = rf.predict_proba(X_test_scaled)
+            holdout_preds_rf[:,0] = (holdout_preds_rf[:,0] < threshold).astype('int')
+            holdout_preds_rf[:,1] = (holdout_preds_rf[:,1] >= threshold).astype('int')
+
+        
+            print(f"Training: \nF1: {f1_score(y_train, rfpreds)}, \nRecall: {recall_score(y_train, rfpreds)}, \nAccuracy: {rf.score(X_train_scaled, y_train)}, \nPrecision: {precision_score(y_train, rfpreds)}")
+            print(f"Test: \nF1: {f1_score(y_test, holdout_preds_rf)}, \nRecall: {recall_score(y_test, holdout_preds_rf)}, \nAccuracy: {lr.score(X_test_scaled, y_test)}, \nPrecision: {precision_score(y_test, holdout_preds_rf)}")
 
     model = rf.fit(X, y) ## Final model created
 
-    pickle_model = True
+    pickle_model = False
     if pickle_model:
         with open("static/model.pkl", 'wb') as f:
             pickle.dump(model, f)
