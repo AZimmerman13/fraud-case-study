@@ -133,10 +133,10 @@ if __name__ == "__main__":
             rf.fit(X_train_scaled, y_train)
 
             rfpreds = rf.predict_proba(X_train_scaled)
-            rfpreds[:,1] = (rfpreds[:,1] >= i).astype('int')
+            rfpreds = (rfpreds[:,1] >= i).astype('int')
 
             holdout_preds_rf = rf.predict_proba(X_test_scaled)
-            holdout_preds_rf[:,1] = (holdout_preds_rf[:,1] >= i).astype('int')
+            holdout_preds_rf = (holdout_preds_rf[:,1] >= i).astype('int')
 
             print(f"With a threshold of {i}:\n")
             print(f"Training: \nF1: {f1_score(y_train, rfpreds)}, \nRecall: {recall_score(y_train, rfpreds)}, \nAccuracy: {rf.score(X_train_scaled, y_train)}, \nPrecision: {precision_score(y_train, rfpreds)}\n")
