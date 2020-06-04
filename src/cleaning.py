@@ -127,7 +127,7 @@ if __name__ == "__main__":
         print(f"Test: F1: {f1_score(y_test, holdout_preds)}, Recall: {recall_score(y_test, holdout_preds)}, Accuracy: {lr.score(X_test_scaled, y_test)}, Precision: {precision_score(y_test, holdout_preds)}")
     if randomforest:
         print("Starting Random Forest...")
-        thresh_list = list(np.arange(0,1,0.05))
+        thresh_list = list(np.arange(0.8,0.85,0.005))
         for i in thresh_list:
             rf = RandomForestClassifier(class_weight='balanced', n_estimators=300, max_features=3, max_leaf_nodes=50, random_state=42, n_jobs=-2, oob_score=True)
             rf.fit(X_train_scaled, y_train)
