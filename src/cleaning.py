@@ -133,16 +133,16 @@ if __name__ == "__main__":
             rf.fit(X_train_scaled, y_train)
 
             rfpreds = rf.predict_proba(X_train_scaled)
-            rfpreds[:,0] = (rfpreds[:,0] < threshold).astype('int')
-            rfpreds[:,1] = (rfpreds[:,1] >= threshold).astype('int')
+            rfpreds[:,0] = (rfpreds[:,0] < i).astype('int')
+            rfpreds[:,1] = (rfpreds[:,1] >= i).astype('int')
 
             holdout_preds_rf = rf.predict_proba(X_test_scaled)
-            holdout_preds_rf[:,0] = (holdout_preds_rf[:,0] < threshold).astype('int')
-            holdout_preds_rf[:,1] = (holdout_preds_rf[:,1] >= threshold).astype('int')
+            holdout_preds_rf[:,0] = (holdout_preds_rf[:,0] < i).astype('int')
+            holdout_preds_rf[:,1] = (holdout_preds_rf[:,1] >= i).astype('int')
 
-        
-            print(f"Training: \nF1: {f1_score(y_train, rfpreds)}, \nRecall: {recall_score(y_train, rfpreds)}, \nAccuracy: {rf.score(X_train_scaled, y_train)}, \nPrecision: {precision_score(y_train, rfpreds)}")
-            print(f"Test: \nF1: {f1_score(y_test, holdout_preds_rf)}, \nRecall: {recall_score(y_test, holdout_preds_rf)}, \nAccuracy: {lr.score(X_test_scaled, y_test)}, \nPrecision: {precision_score(y_test, holdout_preds_rf)}")
+            print(f"With a threshold of {i}:\n")
+            print(f"Training: \nF1: {f1_score(y_train, rfpreds)}, \nRecall: {recall_score(y_train, rfpreds)}, \nAccuracy: {rf.score(X_train_scaled, y_train)}, \nPrecision: {precision_score(y_train, rfpreds)}\n")
+            print(f"Test: \nF1: {f1_score(y_test, holdout_preds_rf)}, \nRecall: {recall_score(y_test, holdout_preds_rf)}, \nAccuracy: {lr.score(X_test_scaled, y_test)}, \nPrecision: {precision_score(y_test, holdout_preds_rf)}\n\n\n")
 
     model = rf.fit(X, y) ## Final model created
 
