@@ -4,14 +4,9 @@ import numpy as np
 from bs4 import BeautifulSoup
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.stem import WordNetLemmatizer
-from nltk.corpus import stopwords
+
 from nltk import word_tokenize
-from sklearn.cluster import KMeans
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import f1_score, recall_score, precision_score
-from sklearn.ensemble import RandomForestClassifier
+
 
 def clean_training_dataframe(raw_fp):
     '''
