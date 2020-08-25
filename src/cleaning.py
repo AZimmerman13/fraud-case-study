@@ -105,6 +105,7 @@ if __name__ == "__main__":
     
     df_modelling['common_domain'] = [('gmail' or 'yahoo' or 'live' or 'me' or 'hotmail' or 'aol') in entry for entry in df_modelling['email_domain']]
 
+    df_modelling.drop(columns='email_domain', axis=1, inplace=True)
     df_modelling.to_pickle('data/fraud_data.pkl')   
 
           
