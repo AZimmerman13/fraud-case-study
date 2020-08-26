@@ -4,11 +4,11 @@ By Annie Rumbles, Allison Zhou, Marc Russell, and Austin Zimmerman
 
 - [Problem Statement](##Problem-Statement)
 - [Data](##Data)
-    - [Training Data](##Training-Data)
+    - [Training Data](###Training-Data)
     - [EDA](##EDA)
     - [Test Data](##Test-Data)
 - [Pipeline](##Pipeline)
-- [Model Selection and Improvement](#Model-Selection-and-Improvement)
+- [Model Selection and Improvement](##Model-Selection-and-Improvement)
     - [Logistic Regression](##Logistic-Regression)
     - [Random Forest](##Random-Forest)
     - [Results](##Results)
@@ -20,7 +20,7 @@ By Annie Rumbles, Allison Zhou, Marc Russell, and Austin Zimmerman
 <p align="center">
        <img src="images/header.jpg" width="800" height='350'/>
 
-## Problem Statement
+## Problem Statement <a name="Problem-Statement"></a> 
 
 We have been tasked with identifying fraudulent events based on data provided to us by an online event planning company.  Since our product will be identifying potential fraud for further investigation, as opposed to automatically taking down 'fraud' events, we expect that the best approach will be to minimize false negatives.  The business is better suited by a product that is overly cautious in its initial screen, allowing the human agents to make final decision based on their experience or, perhaps less often, contact with the customer.
 
@@ -105,9 +105,9 @@ Once the pickled model was incorporated into the flask app, we ran the test data
 
 ## Dealing with Class Imbalance
 
-It is important to note that the classes in this dataset were severely imbalanced, only about 9% of the rows were members of the positive class. In order to address the heavy class imbalance in our dataset, we chose to oversample items that belonged to the 'fraud' class.  This had the effect of substantially improving our model performance, and made the precision-recall tradeoff not quite as steep as we originally feared.  We took advantage of the built-in functionality of python's `imblearn` module to accomplish this.
+It is important to note that the classes in this dataset were severely imbalanced, only about 9% of the rows were members of the positive class. In order to address the heavy class imbalance in our dataset, we chose to oversample items that belonged to the 'fraud' class.  This had the effect of substantially improving our model performance and made the precision-recall tradeoff not quite as steep as we originally feared.  We took advantage of the built-in functionality of python's `imblearn` module to accomplish this.
 
-Another strategy we considered to address this issue include stratifying the train-test-split and use class_weights = 'balanced' (RandomForest hyperparameter) at the modeling process.  But this approach yielded poor results when compared with oversampling. 
+Another strategy we considered to address this issue include stratifying the train-test-split and use class_weights = 'balanced' (RandomForest hyperparameter) in the modeling process.  But this approach yielded poor results when compared with oversampling. 
 
 
 ## Logistic Regression
@@ -137,7 +137,7 @@ We chose a threshold value of 0.3 in order to maximize recall, while still retai
 
 Trying to get a sense of what factors weigh heavily on fraud:
 <p align="center">
-       <img src="images/feat_importances.png" width="600" />
+       <img src="images/feature_importance_oversample.png" width="600" />
 
 ## Results
 
@@ -146,23 +146,17 @@ After doing the NLP and KMeans clustering on the term frequency-inverse document
 
 `['has_logo', 'listed', 'num_payouts', 'user_age', 'user_type', 'org_description', 'common_domain', 'percent_upper']`
 
-<p align="center">
-       <img src="images/feat_importances_noclusters.png" width="600"  />
 
 
-## Flask Implementation
 
-We created a simple [flask app](http://3.16.163.155:8808/), hosted on an Amazon EC2 instance, where new data coming off of the Heroku server (as well as our model's predictions) can be [viewed](http://3.16.163.155:8808/) in real time.  The app takes this data and uploads it to a PostgreSQL server, also hosted on AWS, which can be queried by the company's fraud invesigators.
+## Flask Implementation (No longer active)
+
+We created a simple flask app, hosted on an Amazon EC2 instance, where new data coming off of the Heroku server (as well as our model's predictions) can be viewed in real time if need be.  
 
 ## Future Work
 
-For future improvements to the model, we would like to implement another class weighting technique by either oversampling, undersampling, or SMOTE. We'd also like to compare the performance of a gradient boosted classifier to our random forest.
+For future improvements to the model, we'd like to achieve full integration with the PostgreSQL server in order to maintain a database of flagged events.
 
-Integration with the PostgreSQL server in order to maintain a database of flagged events.
-
-# #Analysis
-<p align="center">
-    <img src="images/pie.png" width="600"/>
 
 ## Citations
 
