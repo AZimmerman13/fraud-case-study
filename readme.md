@@ -2,26 +2,27 @@
 
 By Annie Rumbles, Allison Zhou, Marc Russell, and Austin Zimmerman
 
-- [Problem Statement](#problemstatement)
-- [Data](#Data)
-    - [Training Data](#Training-Data)
-    - [EDA](#EDA)
-       - [Class Imbalance](#Class-Imbalance) 
-    - [Test Data](#Test-Data)
-- [Pipeline](#Pipeline)
-- [Model Selection and Improvement](#Model-Selection-and-Improvement)
-    - [Logistic Regression](#Logistic-Regression)
-    - [Random Forest](#Random-Forest)
-    - [Results](#Results)
-- [Flask Implementation](#Flask-Implementation)
-- [Future Work](#Future-work)
-
+- [Problem Statement](#problem-statement)
+- [Data](#data)
+    - [Training Data](#training-data)
+    - [EDA](#eda)
+       - [Class Imbalance](#class-imbalance) 
+    - [Test Data](#test-data)
+- [Pipeline](#pipeline)
+- [Model Selection and Improvement](#model-selection-and-improvement)
+    - [Dealing With Class Imbalance](#dealing-with-class-imbalance)
+    - [Logistic Regression](#logistic-regression)
+    - [Random Forest](#random-forest)
+    - [Results](#results)
+- [Flask Implementation](#flask-implementation-no-longer-active)
+- [Future Work](#future-work)
+- [Citation](#citation)
 
 
 <p align="center">
        <img src="images/header.jpg" width="800" height='350'/>
 
-## Problem Statement <a name="problemstatement"></a> 
+## Problem Statement
 
 We have been tasked with identifying fraudulent events based on data provided to us by an online event planning company.  Since our product will be identifying potential fraud for further investigation, as opposed to automatically taking down 'fraud' events, we expect that the best approach will be to minimize false negatives.  The business is better suited by a product that is overly cautious in its initial screen, allowing the human agents to make final decision based on their experience or, perhaps less often, contact with the customer.
 
@@ -146,8 +147,6 @@ Trying to get a sense of what factors weigh heavily on fraud:
 After doing the NLP and KMeans clustering on the term frequency-inverse document frequency vector and comparing the model with clusters and without those clusters, we found that the clusters didn't contribute significantly to the model so we opted for a model that predicted using the following features: 
 
 `['has_logo', 'listed', 'num_payouts', 'user_age', 'user_type', 'org_description', 'common_domain', 'percent_upper']`
-
-
 
 
 ## Flask Implementation (No longer active)
