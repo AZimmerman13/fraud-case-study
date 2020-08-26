@@ -2,17 +2,18 @@
 
 By Annie Rumbles, Allison Zhou, Marc Russell, and Austin Zimmerman
 
-- [Problem Statement](##Problem-Statement)
-- [Data](##Data)
-    - [Training Data](###Training-Data)
-    - [EDA](##EDA)
-    - [Test Data](##Test-Data)
-- [Pipeline](##Pipeline)
-- [Model Selection and Improvement](##Model-Selection-and-Improvement)
-    - [Logistic Regression](##Logistic-Regression)
-    - [Random Forest](##Random-Forest)
-    - [Results](##Results)
-- [Flask Implementation](##Flask-Implementation)
+- [Problem Statement](#problemstatement)
+- [Data](#Data)
+    - [Training Data](#Training-Data)
+    - [EDA](#EDA)
+       - [Class Imbalance](#Class-Imbalance) 
+    - [Test Data](#Test-Data)
+- [Pipeline](#Pipeline)
+- [Model Selection and Improvement](#Model-Selection-and-Improvement)
+    - [Logistic Regression](#Logistic-Regression)
+    - [Random Forest](#Random-Forest)
+    - [Results](#Results)
+- [Flask Implementation](#Flask-Implementation)
 - [Future Work](#Future-work)
 
 
@@ -20,7 +21,7 @@ By Annie Rumbles, Allison Zhou, Marc Russell, and Austin Zimmerman
 <p align="center">
        <img src="images/header.jpg" width="800" height='350'/>
 
-## Problem Statement <a name="Problem-Statement"></a> 
+## Problem Statement <a name="problemstatement"></a> 
 
 We have been tasked with identifying fraudulent events based on data provided to us by an online event planning company.  Since our product will be identifying potential fraud for further investigation, as opposed to automatically taking down 'fraud' events, we expect that the best approach will be to minimize false negatives.  The business is better suited by a product that is overly cautious in its initial screen, allowing the human agents to make final decision based on their experience or, perhaps less often, contact with the customer.
 
